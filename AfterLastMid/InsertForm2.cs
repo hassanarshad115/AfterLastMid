@@ -24,21 +24,42 @@ namespace AfterLastMid
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (pIsUpdate)
+            if (isEmpty())
             {
-                UpdateRecord();
-                Form1 obj = new Form1();
-                obj.Show();
-            }
-            else
-            {
-                SaveRecord();
-                Form1 obj = new Form1();
-                obj.Show();
+                if (pIsUpdate)
+                {
+                    UpdateRecord();
+                    Form1 obj = new Form1();
+                    obj.Show();
+                }
+                else
+                {
+                    SaveRecord();
+                    Form1 obj = new Form1();
+                    obj.Show();
+                }
             }
 
 
-        } 
+        }
+
+        private bool isEmpty()
+        {
+            if (nametextBox1.Text.Trim() == string.Empty)
+            {
+                MessageBox.Show(" Name is Required", "Error ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                nametextBox1.Focus();
+                return false;
+            }
+            if (passwordtextBox2.Text.Trim() == string.Empty)
+            {
+                MessageBox.Show(" Password is Required", "Error ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                passwordtextBox2.Focus();
+                return false;
+            }
+            return true;
+        }
+
         /// <summary>
         /// agr ak bar b name ismy enter hoa hoa ha r agr again whe name add kia tw ye error dyga k
         /// apny ye name phly he mojod ha database ma
@@ -72,7 +93,7 @@ namespace AfterLastMid
                 conn.Open();
                 cmd.ExecuteNonQuery();
                 conn.Close();
-                MessageBox.Show("Insert Successfully");
+                MessageBox.Show("Insert Successfully"+nametextBox1.Text.ToUpper());
             }
         }
 
@@ -116,6 +137,37 @@ namespace AfterLastMid
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             adapter.Fill(dt);
             return dt;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+           
+            SqlCommand cmd = new SqlCommand("delete from emptbl where Name = '" + nametextBox1.Text.Trim() + "'", conn);
+           
+            conn.Open();
+            cmd.ExecuteNonQuery();
+            conn.Close();
+            MessageBox.Show("Delete Record Succeessfully");
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void nametextBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void passwordtextBox2_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
